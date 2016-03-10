@@ -1,6 +1,8 @@
-
 #!/bin/bash
 #This scripts is written for Installing Nginx from Nginx.org
+dis=$(cat /etc/issue|awk '{print $1}')
+if [[ $dis = 'Ubuntu' ]]; then
+
 first=$(cat /etc/issue|awk '{print $2}'|awk -F'.' '{print $1}')
 last=$(cat /etc/issue|awk '{print $2}'|awk -F'.' '{print $2}')
 version=$first$last
@@ -19,5 +21,19 @@ cat >>/etc/apt/sources.list<<EOF
 deb http://nginx.org/packages/ubuntu/ $codename nginx
 deb-src http://nginx.org/packages/ubuntu/ $codename nginx
 EOF
+
+elif [[ $dis = 'Debian' ]]; then
+dbversion=$(cat /etc/issue|awk '{print $3}')
+if [[ $dbversion = '7' ]]; then
+	codename=wheezy
+elif [[ $dbversion = '8' ]]; then
+	codename=jessie
+fi
+cat >>/etc/apt/sources.list<<EOF
+deb http://nginx.org/packages/debian/ $codename nginx
+deb-src http://nginx.org/packages/debian/ $codename nginx
+EOF
+fi
+
 apt-get update 
-apt-get install nginx
+apt-get install nginx -y
