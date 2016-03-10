@@ -1,0 +1,23 @@
+
+#!/bin/bash
+#This scripts is written for Installing Nginx from Nginx.org
+first=$(cat /etc/issue|awk '{print $2}'|awk -F'.' '{print $1}')
+last=$(cat /etc/issue|awk '{print $2}'|awk -F'.' '{print $2}')
+version=$first$last
+echo $version
+if [ $version == '1204' ]; then
+	codename=precise
+elif [ $version == '1404' ]; then
+	codename=trusty
+elif [ $version == '1504' ]; then
+	codename=vivid
+elif [ $version == '1510' ]; then
+	codename=wily
+fi
+echo $codename
+cat >>/etc/apt/sources.list<<EOF
+deb http://nginx.org/packages/ubuntu/ $codename nginx
+deb-src http://nginx.org/packages/ubuntu/ $codename nginx
+EOF
+apt-get update 
+apt-get install nginx
