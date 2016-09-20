@@ -1,4 +1,5 @@
 #!/bin/bash
+yum install deltarpm -y
 yum install -y redhat-lsb 
 yum install -y wget
 osrelease=$(lsb_release -rs|awk -F'.' '{print $1}')
